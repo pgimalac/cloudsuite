@@ -5,6 +5,7 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends \
     curl \
     rsync \
     ssh \
+    strace \
     && rm -rf /var/lib/apt/lists/*
 
 ENV HADOOP_VERSION 2.10.1
@@ -31,4 +32,4 @@ COPY files/*-site.xml ${HADOOP_PREFIX}/etc/hadoop/
 COPY files/entrypoint.sh files/example_benchmark.sh /root/
 RUN chmod +x /root/entrypoint.sh /root/example_benchmark.sh
 
-ENTRYPOINT ["/root/entrypoint.sh"]
+ENTRYPOINT ["strace", "-ff", "-tt", "-o", "strace.out", "/root/entrypoint.sh"]
