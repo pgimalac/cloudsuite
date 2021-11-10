@@ -22,4 +22,4 @@ echo slaves | parallel 'docker run -d --net hadoop-net --name {} --hostname {} h
 docker exec master strace -ff -tt -o strace.out benchmark
 
 # merge straces and copy merged result locally
-echo all | parallel 'docker cp ../../strace-merge.sh {}: ; docker exec {} sh strace-merge.sh ; docker cp {}:strace.out .'
+echo all | parallel 'docker cp ../../strace-merge.sh {}: ; docker exec {} sh strace-merge.sh ; docker cp {}:strace.out strace.{}.out'
