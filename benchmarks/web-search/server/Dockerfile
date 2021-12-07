@@ -39,4 +39,8 @@ RUN chmod +x /entrypoint.sh
 
 EXPOSE $SOLR_PORT
 
-ENTRYPOINT ["/entrypoint.sh"]
+RUN apt -y update \
+    && apt install -y strace
+RUN which strace
+
+ENTRYPOINT ["strace", "-f", "-ttt", "-T", "-o strace.out", "/entrypoint.sh"]
