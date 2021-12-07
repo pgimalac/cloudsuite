@@ -20,7 +20,9 @@ RUN cd /root/movielens-als \
     && mv /root/movielens-als/target/scala-2.11/*.jar /root/movielens-als/run_benchmark.sh /benchmarks/movielens-als \
     && rm -r /root/movielens-als \
     && apt-get purge -y --auto-remove sbt \
-    && rm -r /root/.sbt /root/.ivy2
+    && rm -r /root/.sbt /root/.ivy2 \
+    && apt -y update \
+    && apt install -y strace
 
 COPY files /root/
 
@@ -28,4 +30,7 @@ FROM cloudsuite/spark:2.4.5
 RUN mkdir -p /benchmarks/movielens-als /root
 COPY --from=build /benchmarks/movielens-als /benchmarks/movielens-als
 COPY --from=build /root/entrypoint.sh /root/entrypoint.sh
+RUN apt -y update \
+    && apt install -y strace
+RUN which strace
 ENTRYPOINT ["/root/entrypoint.sh"]

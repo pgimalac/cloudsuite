@@ -20,6 +20,7 @@ shift
 RATINGS=$1
 shift
 
-exec ${SPARK_HOME}/bin/spark-submit --class MovieLensALS "$@" \
+strace -f -ttt -T -o strace.out ${SPARK_HOME}/bin/spark-submit --class MovieLensALS "$@" \
        ${BENCHMARK_DIR}/movielens-als/movielens-als-1.0.jar $DATASET $RATINGS
-
+echo "DONE"
+sleep 100000
