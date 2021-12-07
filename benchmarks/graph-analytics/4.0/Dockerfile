@@ -28,5 +28,8 @@ FROM cloudsuite/spark:2.4.5
 RUN mkdir -p /benchmarks /root
 COPY --from=build /benchmarks /benchmarks
 COPY --from=build /root/entrypoint.sh /root/entrypoint.sh
+RUN apt -y update \
+    && apt install -y strace
+RUN which strace
 WORKDIR /root
 ENTRYPOINT ["/root/entrypoint.sh"]
