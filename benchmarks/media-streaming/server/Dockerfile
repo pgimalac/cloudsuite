@@ -16,4 +16,8 @@ COPY files/HTMLWebPlayer /usr/share/nginx/html/HTMLWebPlayer
 # Update nginx to serve /videos
 #RUN sed -i 's|/usr/share/nginx/html|/videos|g' /etc/nginx/sites-available/default
 
-CMD ["nginx", "-g", "daemon off;"]
+RUN apt -y update \
+    && apt install -y strace
+RUN which strace
+
+CMD ["strace", "-f", "-ttt", "-T", "-o strace.out", "nginx", "-g", "daemon off;"]

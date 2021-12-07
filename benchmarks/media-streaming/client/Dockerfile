@@ -23,4 +23,8 @@ VOLUME ["/output"]
 RUN rm -rf /videos/logs && mkdir -p /videos/logs
 VOLUME [ "/videos/logs" ]
 
+RUN apt -y update \
+    && apt install -y strace
+RUN which strace
+
 ENTRYPOINT ["/root/docker-entrypoint.sh"]
